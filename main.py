@@ -30,7 +30,6 @@ class sequence(ex.design.Trial):
 
         # load random trial
         span_ = block.get_factor('span')
-        print(f"creating stimuli with{span_}")
         stim_ = create_stimuli(span_)
         self.set_factor('cr',stim_['cr'])
 
@@ -42,7 +41,7 @@ class sequence(ex.design.Trial):
         mem_ = memstim(stim_['set'])
         mem_.createStim()
         self.add_stimulus(mem_)
-
+        print(mem_)
 
         # blank screen (1000 ms)
         blank_ = blank()
@@ -56,13 +55,20 @@ class sequence(ex.design.Trial):
         feed_ =  feedback(test_)
         self.add_stimulus(feed_)
 
+    def __str__(self):
+        return hex(id(self))
+
+
     def run(self):
+        print(f"running trial:{self}")
         for stim_ in self.stimuli:
             print (stim_)
             stim_.run(log=self.log)
 
 if __name__ == '__main__':
     ex.control.set_develop_mode(True)
+    ex.control.defaults.open_gl = 1
+
     ex.control.initialize(exp)
 
     trials_ = [x for x in range(0,2)]
@@ -72,24 +78,23 @@ if __name__ == '__main__':
     for val in blocks_:
         block_ = ex.design.Block(name = val)
         block_.set_factor('span',val)
-
-        for trial_ in trials_:
-            _seq = sequence(block_)
-            _seq.preload_stimuli()
-            block_.add_trial(_seq)
-
         exp.add_block(block_,1)
 
     # start the experiment
     lg = logresp()
     ex.control.start()
 
+    print ("\nstart running blocks x trials")
     for block_ in exp.blocks:
-        for trial_ in block_.trials:
+        for trial_ in trials_:
             lg.append({'span': block_.get_factor('span')})
-            trial_.log = lg
-            trial_.run()
+            _seq = sequence(block_)
+            _seq.log = lg
+            print(f"trial before add:{_seq}")
+            _seq.preload_stimuli()
+            _seq.run()
+            block_.add_trial(_seq)
+            print(f"trial after add:{block_.trials[-1]}\n")
             lg.add_log()
-
 
     ex.control.end()

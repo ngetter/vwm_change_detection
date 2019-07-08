@@ -17,9 +17,10 @@ class memstim(ex.stimuli.Canvas):
         for obj in self.objects:
             stim_ = ex.stimuli.Rectangle((50,50), position=obj['position'], colour=obj['colour'])
             stim_.plot(self)
-            print (f'plot {obj}', self)
-        ex.stimuli.TextLine(f"{str(self.span)}:{self.id}").plot(self)
-        self.save(join(os.getcwd(), 'stimuli', f"stimulus_{self.span}_{self.id}.png"))
+
+        ex.stimuli.TextLine(f"{str(self.span)}:{self.id}:{hex(id(self))}").plot(self)
+        if ex.control.defaults.open_gl > 0:
+            self.save(join(os.getcwd(), 'stimuli', f"stimulus_{self.span}_{self.id}_{hex(id(self))}.png"))
 
     def run(self,**argx):
         self.present()
@@ -27,10 +28,14 @@ class memstim(ex.stimuli.Canvas):
         x,y  = exp.keyboard.wait(ex.misc.constants.K_SPACE)
 
     def __repr__(self):
-        return f"span={self.span}: id={self.id}"
+        return f"span={self.span}: id={self.id}:{hex(id(self))}"
 
-
+###
 class fixation(ex.stimuli.FixCross):
+    '''
+        display fixation
+        @wait: time of presentation
+    '''
     def __init__(self):
         ex.stimuli.FixCross.__init__(self)
         # self.preload()
