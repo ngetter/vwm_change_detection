@@ -106,3 +106,20 @@ class feedback(ex.stimuli.Canvas):
 
         # self.present()
         exp.clock.wait(self.wait)
+
+
+class instructions(ex.stimuli.Picture):
+    def __init__(self, path):
+        ex.stimuli.Picture.__init__(self, path)
+
+    def __repr__(self):
+        return f"feedback: id={self.id}"
+
+
+    def run(self, **kwargs):
+        self.present()
+        _,_  = exp.keyboard.wait(ex.misc.constants.K_SPACE)
+
+
+
+

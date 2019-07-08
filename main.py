@@ -33,6 +33,7 @@ class sequence(ex.design.Trial):
         stim_ = create_stimuli(span_)
         self.set_factor('cr',stim_['cr'])
 
+
         # fixation (500 ms)
         fix_ = fixation()
         self.add_stimulus(fix_)
@@ -84,17 +85,20 @@ if __name__ == '__main__':
     lg = logresp()
     ex.control.start()
 
+    # instructions
+    inst_ = instructions(join(os.getcwd(), 'instructions','instructions', 'Slide1.PNG'))
+    inst_.run()
+
     print ("\nstart running blocks x trials")
     for block_ in exp.blocks:
         for trial_ in trials_:
             lg.append({'span': block_.get_factor('span')})
             _seq = sequence(block_)
             _seq.log = lg
-            print(f"trial before add:{_seq}")
+            print(f"running trial:{_seq}")
             _seq.preload_stimuli()
             _seq.run()
             block_.add_trial(_seq)
-            print(f"trial after add:{block_.trials[-1]}\n")
             lg.add_log()
 
     ex.control.end()

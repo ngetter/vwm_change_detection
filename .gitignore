@@ -1,6 +1,5 @@
-/data
-/events
-/stimuli
+/data/
+/events/
+/stimuli/
 .idea
 /__pycache__
-
