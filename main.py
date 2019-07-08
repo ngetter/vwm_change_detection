@@ -71,8 +71,8 @@ if __name__ == '__main__':
 
     ex.control.initialize(exp)
 
-    trials_ = [x for x in range(0,2)]
-    blocks_ = [1,2]
+    trials_ = [x for x in range(0,4)]
+    blocks_ = [1,3,6]
     # prepere
 
     for val in blocks_:

@@ -24,8 +24,8 @@ class memstim(ex.stimuli.Canvas):
 
     def run(self,**argx):
         self.present()
-        # exp.clock.wait(self.wait)
-        x,y  = exp.keyboard.wait(ex.misc.constants.K_SPACE)
+        exp.clock.wait(self.wait)
+        # x,y  = exp.keyboard.wait(ex.misc.constants.K_SPACE)
 
     def __repr__(self):
         return f"span={self.span}: id={self.id}:{hex(id(self))}"
