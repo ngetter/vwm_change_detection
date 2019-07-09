@@ -84,7 +84,8 @@ class test_stim(ex.stimuli.Canvas):
         self.present()
         self.response_key, self.response_rt = exp.keyboard.wait(self.response_keys)
         self.acc = self.response_keys[self.response_key] == self.cr
-        log.append( { 'cr': self.cr, 'id': self.id, 'resp': self.response_keys[self.response_key], 'rt': self.response_rt, 'acc':self.acc})
+        if log is not None:
+            log.append( { 'cr': self.cr, 'id': self.id, 'resp': self.response_keys[self.response_key], 'rt': self.response_rt, 'acc':self.acc})
 
 class feedback(ex.stimuli.Canvas):
     def __init__(self, obj):
